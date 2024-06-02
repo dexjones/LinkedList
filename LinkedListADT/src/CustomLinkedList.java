@@ -1,75 +1,58 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class CustomLinkedList<T> implements Iterable<T> {
-    private Node<T> head;
-    private Node<T> tail;
-    private Node<T> curr;
-    private int listSize;
+public class CustomLinkedList implements Iterable<Integer> {
+    private Node head;
 
-    private static class Node<T> {
-        T element;
-        Node<T> next;
+    // Node class
+    private static class Node {
+        int data;
+        Node next;
 
-        Node(T element) {
-            this.element = element;
+        Node(int data) {
+            this.data = data;
             this.next = null;
         }
     }
-    public CustomLinkedList() {
-        head = tail = curr = null;
-        listSize = 0;
-    }
-    //clear all elements
-    public void clear() {
-        head = tail = curr = null;
-        listSize = 0;
-    }
-    // Insert newItem at current position
-    public boolean insert(T newItem) {
-        if (listSize == 0) {
-            head = new Node<>(newItem);
-            tail = head;
-            curr = head;
-        }
-        else if (curr == head) {
-            Node<T> temp = new Node<>(newItem);
-            temp.next = head;
-            head = temp;
-            curr = head;
-        }
-        else if (curr == null) {
-            return false;
-        }
-        else {
-            Node<T> temp = head;
-            while (temp.next != curr) {
-                temp = temp.next;
-            }
-            temp.next = new Node<>(newItem);
-            temp.next.next = curr;
-            curr = temp.next;
-        }
-        listSize++;
-        return true;
-    }
-    // Append newItem to the end of the list
-    public boolean append(T newItem) {
-        if (listSize == 0) {
-            head = new Node<>(newItem);
-            tail = head;
-            curr = head;
+
+    // Insert a new node with the given data
+    public void insert(int data) {
+        Node newNode = new Node(data);
+        if (head == null) {
+            head = newNode;
         } else {
-            tail.next = new Node<>(newItem);
-            tail = tail.next;
+            Node current = head;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newNode;
         }
-        listSize++;
-        return true;
     }
+    // Delete the first occurrence of a node with the given data
+    public void delete(int data) {
+        if (head == null) return;
+
+        if (head.data == data) {
+            head = head.next;
+            return;
+        }
+
+        Node current = head;
+        while (current.next != null && current.next.data != data) {
+            current = current.next;
+        }
+
+        if (current.next != null) {
+            current.next = current.next.next;
+        }
+    }
+
+    // Return an iterator for traversing the linked list
     @Override
-    public Iterator<T> iterator() {
+    public Iterator<Integer> iterator() {
         return new LinkedListIterator();
     }
+
     private class LinkedListIterator implements Iterator<Integer> {
         private Node current = head;
 
@@ -77,7 +60,6 @@ public class CustomLinkedList<T> implements Iterable<T> {
         public boolean hasNext() {
             return current != null;
         }
-
         @Override
         public Integer next() {
             if (!hasNext()) {
@@ -88,7 +70,4 @@ public class CustomLinkedList<T> implements Iterable<T> {
             return data;
         }
     }
-
-    // Other methods...
 }
-
