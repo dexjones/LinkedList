@@ -7,14 +7,15 @@ public class Main {
     public static void main(String[] args) {
         CustomLinkedList linkedList = new CustomLinkedList();
         int number;
-        // Read integers from a file and insert them into the linked list
-        try (Scanner scanner = new Scanner(new File("integers.txt"))) {
+        File file = new File("numbers.txt");
+        try {
+            Scanner scanner = new Scanner(file);
             while (scanner.hasNextInt()) {
                 number = scanner.nextInt();
                 linkedList.insert(number);
             }
         } catch (FileNotFoundException e) {
-            System.err.println("File not found: " + e.getMessage());
+            System.err.println("File not found " + e.getMessage());
         }
         System.out.println("Elements inserted.\n");
         // Iterate and display elements

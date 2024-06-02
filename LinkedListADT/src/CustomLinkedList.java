@@ -14,7 +14,6 @@ public class CustomLinkedList implements Iterable<Integer> {
             this.next = null;
         }
     }
-
     // Insert a new node with the given data
     public void insert(int data) {
         Node newNode = new Node(data);
